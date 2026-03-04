@@ -724,13 +724,17 @@ shinyServer(function(input, output, session) {
         tags$h4(style = "margin:0 0 6px 0;", shiny::icon("database"), " Données de démonstration"),
         tags$p(style = "margin:0;", tags$b("Nom : "), input$demo_dataset),
         tags$p(style = "margin:0;", tags$b("Description : "), desc),
-        tags$p(class = "small-note", style = "margin:6px 0 0 0;", shiny::icon("info-circle"),
-               "Cliquez sur une section ci-dessous pour l’ouvrir."),
         tags$hr(style = "margin:10px 0;"),
         tags$div(
-          style = "display:grid; grid-template-columns: 1fr 1fr; gap: 8px;",
-          tags$div(tags$b("Classe : "), paste(class(df), collapse = ", ")),
-          tags$div(tags$b("Dimensions : "), nrow(df), " × ", ncol(df))
+          tags$div(tags$b("Dimensions : "), nrow(df), " × ", ncol(df)),
+          tags$p(class = "small-note", style = "margin:6px 0 0 0;", shiny::icon("info-circle"),
+                 "Cliquez sur une section ci-dessous pour l’ouvrir."),
+          
+          # style = "display:grid; grid-template-columns: 1fr 1fr; gap: 8px;",
+          # tags$div(tags$b("Classe : "), paste(class(df), collapse = ", ")),
+          # tags$div(tags$b("Dimensions : "), nrow(df), " × ", ncol(df))
+          
+          
         )
       ),
       
@@ -1347,7 +1351,7 @@ shinyServer(function(input, output, session) {
       ),
       fluidRow(
         box(
-          width = 6, status = "primary", solidHeader = TRUE, collapsible = TRUE, collapsed = FALSE,
+          width = 6, status = "primary", solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE,
           title = cat_title("Univarié — Numérique"),
           build_tests_table_ui(get_cat("Univarié — Numérique"))
         ),

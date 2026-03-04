@@ -228,6 +228,20 @@ shinyUI(
           .demo-p summary { background: rgba(96, 92, 168, .10); }
           .demo-a summary { background: rgba(0, 166, 90, .10); }
           .demo-details summary:hover { filter: brightness(0.98); }
+
+          /* ==============================
+             Move box collapse control LEFT
+             + Add padding so it doesn't overlap title
+             ============================== */
+          .box .box-header .box-tools {
+            float: left !important;
+            right: auto !important;
+            left: 10px !important;
+          }
+          .box .box-header .box-title {
+            padding-left: 30px; /* space for +/- icon */
+          }
+          .box .box-header { cursor: pointer; }
         ")),
         tags$script(HTML("
           function shinyMathJaxTypeset() {
@@ -242,6 +256,14 @@ shinyUI(
           $(document).on('shiny:connected', function(){ shinyMathJaxTypeset(); });
           $(document).on('shiny:value', function(){ shinyMathJaxTypeset(); });
           $(document).on('shown.bs.tab', 'a[data-toggle=\"tab\"]', function(){ shinyMathJaxTypeset(); });
+
+          // Toggle collapse when clicking on the box header (except interactive elements)
+          $(document).on('click', '.box .box-header', function(e) {
+            if ($(e.target).is('a, button, input, select, textarea, i')) return;
+            var $box = $(this).closest('.box');
+            var $btn = $box.find('.box-tools [data-widget=\"collapse\"]');
+            if ($btn.length) $btn.click();
+          });
         "))
       ),
       div(
@@ -257,6 +279,8 @@ shinyUI(
               box(
                 width = 12, status = "info", solidHeader = TRUE,
                 title = tagList(icon("info-circle"), " Résumé des données"),
+                collapsible = TRUE,
+                collapsed = TRUE,
                 tags$p(class = "small-note", "Aperçu et typage automatique. (Affichage limité aux 100 premières lignes.)"),
                 withSpinner(uiOutput("data_info_ui"))
               )
@@ -277,7 +301,7 @@ shinyUI(
               box(
                 width = 12, status = "info", solidHeader = TRUE,
                 title = tagList(icon("info-circle"), " Informations sur les données"),
-                withSpinner(uiOutput("demo_info_ui")),
+                withSpinner(uiOutput("demo_info_ui"))
                 # withSpinner(uiOutput("data_stats_overview_ui"))
               )
             ),

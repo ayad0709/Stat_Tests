@@ -1347,7 +1347,7 @@ shinyServer(function(input, output, session) {
       ),
       fluidRow(
         box(
-          width = 6, status = "primary", solidHeader = TRUE, collapsible = TRUE, collapsed = FALSE,
+          width = 6, status = "primary", solidHeader = TRUE, collapsible = TRUE, collapsed = TRUE,
           title = cat_title("Univarié — Numérique"),
           build_tests_table_ui(get_cat("Univarié — Numérique"))
         ),
